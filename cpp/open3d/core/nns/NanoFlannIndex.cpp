@@ -79,8 +79,7 @@ std::pair<Tensor, Tensor> NanoFlannIndex::SearchKnn(const Tensor &query_points,
                 "[NanoFlannIndex::SearchKnn] knn should be larger than 0.");
     }
 
-    const int64_t num_neighbors = std::min(
-            static_cast<int64_t>(GetDatasetSize()), static_cast<int64_t>(knn));
+    const int num_neighbors = std::min(static_cast<int>(GetDatasetSize()), knn);
     const int64_t num_query_points = query_points.GetShape(0);
     const Dtype dtype = GetDtype();
     const Device device = GetDevice();
@@ -102,8 +101,10 @@ std::pair<Tensor, Tensor> NanoFlannIndex::SearchKnn(const Tensor &query_points,
                 /* return_distances */ true, output_allocator);
         indices = output_allocator.NeighborsIndex();
         distances = output_allocator.NeighborsDistance();
-        indices = indices.View({num_query_points, num_neighbors});
-        distances = distances.View({num_query_points, num_neighbors});
+        indices = indices.View(
+                {num_query_points, static_cast<int64_t>(num_neighbors)});
+        distances = distances.View(
+                {num_query_points, static_cast<int64_t>(num_neighbors)});
     });
     return std::make_pair(indices, distances);
 };

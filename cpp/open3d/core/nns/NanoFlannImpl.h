@@ -166,6 +166,9 @@ void _KnnSearchCPU(NanoFlannIndexHolderBase *holder,
 
                     int num_neighbors = 0;
                     for (size_t valid_i = 0; valid_i < num_valid; ++valid_i) {
+                        std::cout << "valid_i: " << valid_i
+                                  << ", size: " << result_indices.size()
+                                  << std::endl;
                         index_t idx = result_indices[valid_i];
                         if (ignore_query_point &&
                             points_equal(&queries[i * dimension],

@@ -36,8 +36,8 @@ jobs:
       matrix:
         SHARED: [ON, OFF]
         STATIC_RUNTIME: [ON, OFF]
-        BUILD_CUDA: [ON, OFF]
-        CONFIG: [Release, Debug]
+        BUILD_CUDA: [OFF]
+        CONFIG: [Debug]
         exclude:
           - SHARED: ON
             STATIC_RUNTIME: ON
